@@ -13,13 +13,13 @@ For demanding scenarios such as live mixing and monitoring of externally trigger
 
 <h4>Client-Server IPC</h3>
 
-When a manufacturer creates a hardware MIDI (USB) device they have the option to interface their firmware with the Apple provided CoreMIDI USB driver (Generic) or a driver they develop in-house (Vendor).  Either way these drivers are required to register themselves with and pass their incoming MIDI data to the CoreMIDI Server application running discreetly on your system.  The CoreMIDI server is responsible for then passing that MIDI data on to the CoreMIDI client apps such as a standalone music app or an AU/VST plugin running within a DAW. 
+When a manufacturer creates a hardware MIDI (USB) device they have the option to interface their firmware with the Apple provided CoreMIDI USB driver (Generic) or a driver they develop in-house (Vendor).  Either way these drivers are required to register themselves with and pass their incoming MIDI data to the CoreMIDI Server application running discreetly on your system.  The CoreMIDI server is responsible for then passing that MIDI data on to the CoreMIDI client apps such as a standalone audio app or an AU/VST plugin running within a DAW. 
 
-The CoreMIDI server uses an Interprocess Communication (IPC) mechanism provided by the kernel known as [Mach Messaging](https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/KernelProgramming/Mach/Mach.html#//apple_ref/doc/uid/TP30000905-CH209-CEGJEIAG) to communicate with client applications that register with the server to send/receive MIDI packets to/from specified device/port combinations exposed via the CoreMIDI API.  In short, while Mach messages may perform better in kernel space they are a terrible choice for soft realtime client applications operating on a deadline wherein these messages have to cross the user-kernel divide.  Beyond that the API dicates that client applications are forced to interlude such communication via the main thread's CFRunloop only.  Overstressing these mach based CoreMIDI client-server connections is the leading cause of unnecessary latency, jitter and scheduling errors across the entire pipeline.    
+The CoreMIDI server uses an Interprocess Communication (IPC) mechanism provided by the kernel known as [Mach Messaging](https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/KernelProgramming/Mach/Mach.html#//apple_ref/doc/uid/TP30000905-CH209-CEGJEIAG) to communicate with client applications that register with the server to send/receive MIDI packets to/from specified device/port combinations exposed via the CoreMIDI API.  In short, while Mach messages may perform better in kernel space they are a terrible choice for soft realtime client applications operating on a deadline wherein these messages have to cross the user-kernel divide.  Beyond that the API dicates that client applications are forced to interlude such communication via the main thread's CFRunloop only.  Overstressing these mach based CoreMIDI client-server connections is the leading cause of unnecessary jitter, latency and scheduling error throughout the entire pipeline.    
 
 <h4>Thru Connection API</h4>
 
-Realizing this - instead of redesigning the CoreMIDI server application and API - Apple introduced the [CoreMIDI Thru Connection API](https://developer.apple.com/documentation/coremidi/midi_thru_connection?language=objc) to allow client apps to instruct the server to create and maintain persistent pass-through for device/port combinations registered with the CoreMIDI server.  Cool, this will allow combining two or more device inputs to a single virtual device that a client app can read from/write to.  Our options for such a virtual device are to create a driver that exposes one or create a client app that registers one via the CoreMIDI API -- the latter with the disadvantage that virtual device will not be persistent when the client app that created it is not running.  Luckily, Apple has provided such a driver for us and users can [create virtual "bus" devices owned by the Interapp Communication (IAC) Driver via MIDI Studio](https://support.apple.com/en-nz/guide/audio-midi-setup/ams1013/3.5/mac/13.1).
+Realizing this - instead of redesigning the CoreMIDI Server application and Client API - Apple introduced the [CoreMIDI Thru Connection API](https://developer.apple.com/documentation/coremidi/midi_thru_connection?language=objc) to allow client apps to instruct the server to create and maintain persistent pass-through for device/port combinations registered with the CoreMIDI server.  Cool, this will allow combining two or more device inputs to a single virtual device that a client app can read from/write to.  Our options for such a virtual device are to create a driver that exposes one or create a client app that registers one via the CoreMIDI API -- the latter with the disadvantage that virtual device will not be persistent when the client app that created it is not running.  Luckily, Apple has provided such a driver for us and users can [create virtual "bus" devices owned by the Interapp Communication (IAC) Driver via MIDI Studio](https://support.apple.com/en-nz/guide/audio-midi-setup/ams1013/3.5/mac/13.1).
 
 Wait... but how do we create a Thru Connection to the IAC bus we exposed in MIDI Studio?  Apple seems to have inexplicably left this out.             
 
@@ -33,33 +33,41 @@ Recently, Apple has allowed AudioUnit plugins to expose themselves as virtual MI
 
 <h4>Thru Connection Mappings & Packet Translation</h4>
 
-The CoreMIDI Thru Connection API allows for trivial 1-in, 1-out transformations of noteNumber, velocity, keyPressure, channelPresure, programChange, pitchBend and controlChange.  However, given that this simple API is not suitable for transforming note values based observed CC I have decided to forgo the extra work to expose UI for mappings as it is not useful to me.  
+The CoreMIDI Thru Connection API allows for trivial 1-in, 1-out transformations of noteNumber, velocity, keyPressure, channelPresure, programChange, pitchBend and controlChange.  However, given that this simple API is not suitable for transforming note values based observed CC, it is of limited use to me and I have decided to forgo the extra work to expose UI for Thru Connection mappings.  
 
 Having an intermediate client app perform translation, of course, defeats the purpose of using a Thru Connection.  Best practice is to just send the correct midi from your external device and avoid translation altogether. Future efforts may involve writing a driver that exposes a virtual device whose traffic I can operate on, despite that having the destination audio plugin directly translate messages on receipt would be a less invasive route in that it would not involve interjecting to hold up and process MIDI data. 
 
 ## Frequently Asked Questions
 
-- [I already use client application X that allows traffic from multiple MIDI devices to be routed to a single virtual port and there are tons of them available.  Why would I need to use this?](#why-would-i-need-to-use-this)
-- [Why am I experiencing greater latency and worse timing accuracy than when receiving directly from a single device in my DAW?](#why)
-- [This seems trivial.  Given that the CoreMIDI Thru Connection API has been around since OSX 10.2 how is it that this was missed by every other CoreMIDI client app?](#Isnt-this-trivial)
+- [I already use client application X that allows traffic from multiple MIDI devices to be routed to a single virtual port and there are tons of them available.  Why would I need to use this?](#Question1)
+- [Why am I experiencing greater latency and worse timing accuracy when using a Thru Connection than when receiving directly from a single device in my DAW?](#Question2)
+- [This seems trivial.  Given that the CoreMIDI Thru Connection API has been around since OSX 10.2 how is it that this was missed by every other CoreMIDI client app?](#Question3)
 
+
+<a name="Question1"/></a>
 #### I already use client application X that allows traffic from multiple MIDI devices to be routed to a single virtual port and there are tons of them available.  Why would I need to use this?
 
 I personally have been using the paid/pro version of [Bome Midi Translator](https://www.bome.com/products/miditranslator) for several years.  It is a very functional app.  It allows creation of non-persistent virtual devices, monitoring on all enabled devices and the ability to "create MIDI Thru Connections".  Specifically, it's advanced filtering capabilities allow creation of mini programs (e.g. tracking hi-hat open/close CC such that when the hi-hat is struck it outputs the corresponding MIDI not value for open or closed).  This app can't possibly be creating true CoreMIDI Server Thru Connections, though, or it would not be able to interrupt those messages in favor of its custom rulesets.  
 
-It is always possible that an app that does monitoring may have been built as a custom driver with a UI in front (e.g. [MIDIMonitor/SnoizeMIDISpy](https://github.com/krevis/MIDIApps)). However, even when I am not filtering and connections are just passed through I experience the same perceivable degradation when receiving from multiple devices in Logic Pro X and so have stopped using Bome.  My advice is to be weary of this inexactness of language and try to verify if you can.  This app promises doubt-free CoreMIDI Server Persistent Thru Connections.
+It is always possible that an app that does monitoring may have been built as a custom driver with a UI in front ([SnoizeMIDISpy](https://github.com/krevis/MIDIApps)). However, even when I am not filtering and connections are just passed through I experience the same perceivable degradation when receiving from multiple devices in Logic Pro X and so have stopped using Bome.  My advice is to be weary of this inexactness of language and try to verify if you can.  
 
-#### Why am I experiencing greater latency and worse timing accuracy than when receiving directly from a single device in my DAW?
+This app promises doubt-free CoreMIDI Server Persistent Thru Connections.
+
+<a name="Question2"/></a>
+#### Why am I experiencing greater latency and worse timing accuracy when using a Thru Connection than when receiving directly from a single device in my DAW?
 
 This is the expected behavior.  If you have only one device being fed directly from Device Driver->CoreMIDI Server->DAW your pipeline is already optimized.  Thru connections are most useful when you wish to trigger from 2 or more devices to an audio plugin running in your DAW and sending through through the IAC Driver WILL ALWAYS increase latency over not doing so as a trade-off for the benefit of improving timing accuracy and minimizing jitter + latency incurred by aggregating multi-device traffic via the DAW's main runloop.  You can adjust for the latency incurred by passing through the IAC bus using a applying a negative latency delay if your DAW exposes such a feature.   
 
+<a name="Question3"/></a>
 #### This seems trivial.  Given that the CoreMIDI Thru Connection API has been around since OSX 10.2 how is it that this was missed by every other CoreMIDI client app?
 
 You are correct it is trivial!  This really should be exposed directly in MIDI Studio.  The [offcial documentation](https://support.apple.com/en-nz/guide/audio-midi-setup/ams875bae1e0/3.5/mac/13.0) reads:
 
 *"You can’t specify a “MIDI thru” connection between two MIDI devices. To indicate a MIDI thru connection, connect the two MIDI devices to the same port of the MIDI interface device."*
 
-This is very poorly written. It does seem that you can create through connections between hardware devices by virtue of creating an intermediate "external device" albeit in an extremely unintuitive fashion.  However, this is the least useful case.  User cannot create Thru Connections between hardware devices and the IAC driver nor between AudioUnit and other devices as needed.  Here are my thoughts on why this this is currently overlooked by devs and pro audio users alike:
+Despite this being very poorly written it does seem that you can create Thru Connections between hardware devices by virtue of creating an intermediate "external device" albeit in an extremely unintuitive fashion.  However, this is the least useful case.  User cannot create Thru Connections between hardware devices and the IAC driver nor between AudioUnit and other devices as needed.  
+
+Here are some additional observations on why this may be currently overlooked by devs and pro audio users alike:
 
 - It wasn't until I recently moved to M1 hardware from an older intel based MBP that I had enough processing headroom reported by Logic Pro X to realize that this was not about load but a symptom of the IPC mechanism.    
 - Of the popular 3rd party wrapper libraries that devs seem to use to build CoreMIDI and even CoreAudio apps none of them use the Thru Connection API.[^1]
