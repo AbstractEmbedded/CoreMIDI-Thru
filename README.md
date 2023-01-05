@@ -69,7 +69,7 @@ Despite this being very poorly written it does seem that you can create Thru Con
 
 Here are some additional observations on why this may be currently overlooked by devs and pro audio users:
 
-- It wasn't until I recently moved to M1 hardware from an older intel based MBP that I had enough processing headroom reported by Logic Pro X to realize that this was not about load but a symptom of the IPC mechanism.    
+- It wasn't until I recently moved to M1 hardware from an older Intel Macbook Pro that I had enough processing headroom reported by Logic Pro X to realize that this was not about load but a symptom of the IPC mechanism.    
 - Of the popular third party wrapper libraries used by others to build CoreMIDI and even CoreAudio apps none of them use the Thru Connection API.[^1]
 - I couldn't find any projects on github with a call to MIDIThruConnectionCreate that actively worked. Furthermore, apps that claim to do virtual pass through always miss the point by passing messages through the client.[^2] 
 - A significant number of others have reported trouble getting the Thru Connection API to pass through packets.  Non-persistent Thru Connections are in fact broken.  While I did experience these initial pangs at first it may be they just weren't trying hard enough.[^3]
