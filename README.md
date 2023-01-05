@@ -36,11 +36,31 @@ Recently, Apple has allowed AU plugins to expose themselves as virtual MIDI gene
 
 <h3>FAQ</h3>
 
-Q:  Given that the CoreMIDI Thru Connection API has been around since 10.2.  How is it that
-
-I'm as surprised as you are and irritated that I had to stop 
-
 
 Q:  I already use client application X that allows traffic from multiple MIDI devices to be routed to a single virtual port and there are tons of them available.  Why would I need to use this?
 
-A:  I personally have been using this paid application for several years:  [https://www.bome.com/products/miditranslator]  It is a very functional app.  It allows creation of non-persistent virtual devices, monitoring on all enabled devices and the ability to "create MIDI Thru Connections".  Specifically, it's advanced filtering capabilities allow creation of mini programs (e.g. tracking hi-hat open/close CC such that when the hi-hat is struck it outputs the corresponding MIDI not value for open or closed).  However, this app can't possibly be creating true CoreMIDI Server Thru Connection or it would not be able to interrupt those messages in favor of its custom rulesets.  It is always possible that an app that does monitoring may have been built as a custom driver with a UI in front but even when I am not filtering and connections are just pass through I experience the same perceivable degradation when receiving from multiple devices in Logic Pro X.  My advice is to be weary of this inexactness of language and try to verify if you can.       
+A:  I personally have been using this paid application for several years:  [https://www.bome.com/products/miditranslator]  It is a very functional app.  It allows creation of non-persistent virtual devices, monitoring on all enabled devices and the ability to "create MIDI Thru Connections".  Specifically, it's advanced filtering capabilities allow creation of mini programs (e.g. tracking hi-hat open/close CC such that when the hi-hat is struck it outputs the corresponding MIDI not value for open or closed).  This app can't possibly be creating true CoreMIDI Server Thru Connections, though, or it would not be able to interrupt those messages in favor of its custom rulesets.  It is always possible that an app that does monitoring may have been built as a custom driver with a UI in front (https://github.com/krevis/MIDIApps). However, even when I am not filtering and connections are just passed through I experience the same perceivable degradation when receiving from multiple devices in Logic Pro X and so have stopped using Bome.  My advice is to be weary of this inexactness of language and try to verify if you can.  This app promises doubt-free CoreMIDI Server Persistent Thru Connections.
+
+Q:  This seems trivial.  Given that the CoreMIDI Thru Connection API has been around since OSX 10.2 how is it that this was missed by every other CoreMIDI client app?
+
+A:  You are correct, it is trivial! My thoughts on why this might be the case: 
+
+--This really should be exposed directly in MIDI Studio.  Shame on Apple.  
+
+--It wasn't until I recently moved to M1 hardware from an older intel based MBP that I had enough processing headroom reported by Logic Pro X to realize that this was not about load but a symptom of the IPC mechanism and slavery to the main runloop.       
+
+--Of the major 3rd Party libraries that devs seem to use to build CoreMIDI and even CoreAudio apps none of them use the Thru Connection API.
+
+https://github.com/PortMidi/portmidi
+https://github.com/orchetect/MIDIKit (has ThruConnection but claims bug in Big Sur onward)
+https://github.com/AudioKit/AudioKit
+
+--I searched github and I couldn't find a single project with a call to MIDIThruConnectionCreate that worked and apps that claim to do virtual pass through always miss the point by passing messages through the client.  A not-insignificant number of others have reported trouble getting the Thru Connection API to pass through packets.  While I did experience these initial pangs at first it may be they just weren't trying hard enough :
+
+https://github.com/genedelisa/Swift2MIDI
+https://github.com/dclelland/Gong
+
+https://stackoverflow.com/questions/54871326/how-is-a-coremidi-thru-connection-made-in-swift-4-2
+https://stackoverflow.com/questions/15141810/midithruconnectioncreate-xcode
+https://stackoverflow.com/questions/14825371/how-to-monitor-outgoing-midi-messages-in-coremidi
+https://www.appsloveworld.com/swift/100/138/midithruconnectioncreate-always-creates-persistent-midi-thru-connection
