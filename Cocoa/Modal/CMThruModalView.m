@@ -1717,12 +1717,12 @@
 
 - (void)processAlertReturnCode:(NSInteger)returnCode
 {
-    if (returnCode == NSModalResponseOK || returnCode == NSOKButton)
+    if (returnCode == NSModalResponseOK )//|| returnCode == NSOKButton)
     {
         NSLog(@"(returnCode == NSOKButton)");
         //[self.window makeKeyWindow];
     }
-    else if (returnCode == NSModalResponseCancel || returnCode == NSCancelButton)
+    else if (returnCode == NSModalResponseCancel)// || returnCode == NSCancelButton)
     {
         NSLog(@"(returnCode == NSCancelButton)");
         

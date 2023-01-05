@@ -14,7 +14,6 @@
 
 -(BOOL)validateMenuItem:(NSMenuItem*)menuItem
 {
-    
     if( !(self.autoenablesItems) )
     {
         return menuItem.enabled;
@@ -97,7 +96,7 @@
     NSMenuItem* closeWindowMenuItem = [[NSMenuItem alloc] initWithTitle:@"Close Window"
                                                                  action:@selector(closeCurrentWindow:)
                                                           keyEquivalent:@"w"];
-    [closeWindowMenuItem setKeyEquivalentModifierMask: NSShiftKeyMask | NSCommandKeyMask];
+    [closeWindowMenuItem setKeyEquivalentModifierMask: NSEventModifierFlagShift | NSEventModifierFlagCommand];
     [closeWindowMenuItem setKeyEquivalent:@"w"];
     
     [fileMenu addItem:closeWindowMenuItem];
@@ -123,7 +122,7 @@
     NSMenuItem* toggleFullscreenItem = [[NSMenuItem alloc] initWithTitle:@"Toggle Fullscreen"
                                                                  action:@selector(toggleFullscreen:)
                                                           keyEquivalent:@"f"];
-    [toggleFullscreenItem setKeyEquivalentModifierMask: NSControlKeyMask | NSCommandKeyMask];
+    [toggleFullscreenItem setKeyEquivalentModifierMask: NSEventModifierFlagControl | NSEventModifierFlagCommand];
     [toggleFullscreenItem setKeyEquivalent:@"f"];
     [toggleFullscreenItem setTarget:self];
     [toggleFullscreenItem setEnabled:YES];
@@ -155,6 +154,8 @@
      Assume that myView1 and myView2 are existing view objects;
      for example, you may have created them in a NIB file.
      */
+    
+    /*
     NSMenuItem* newItem;
     newItem = [[NSMenuItem alloc]
                initWithTitle:@"Custom Item 1"
@@ -168,14 +169,16 @@
                initWithTitle:@"Custom Item 2"
                action:@selector(menuItem2Action:)
                keyEquivalent:@""];
+    
     [newItem setView: myView1];
     [newItem setTarget:self];
     [newMenu addItem:newItem];
+     */
+     
 }
 
 
 -(id)init{
-    
     
     self = [super initWithTitle:@"Core Render"];
     if(self)
@@ -184,10 +187,9 @@
         
         //Create the Submenus
         [self createMainSubmenu];
-        [self createFileSubmenu];
-        [self createViewSubmenu];
-        [self createCustomSubmenu];
-        
+        //[self createFileSubmenu];
+        //[self createViewSubmenu];
+        //[self createCustomSubmenu];
     }
     return self;
 }

@@ -122,8 +122,7 @@ static const char * _Nonnull VRT_EXT_DOM_COLLECTION_TITLES[NUM_EXT_DOM_COLLECTIO
 
 
 //[Optional] Virtual Methods to be overridden by Child Class Implementations
--(void)processPOSTResponse:(long)statusCode JSON:(NSDictionary*)JSONDict;
-
+//...
 
 //Mandatory Parent Class Properties to be overridden by  Child Class Implementations
 @property (nonatomic, readonly) NSString * CREATE_URL;
@@ -141,23 +140,8 @@ static const char * _Nonnull VRT_EXT_DOM_COLLECTION_TITLES[NUM_EXT_DOM_COLLECTIO
 
 -(void)showAlertView:(NSString* __nullable)title message:(NSString*)message buttonTitles:(NSArray * __nullable)buttonTitles completionHandler:(void (^ __nullable)(int returnCode))handler;
 
-//Create/Create Many
-//-(void)submitCreateRequestWithCompletionHandler:(HTTPRequestCompletionBlock)completionHandler;
-
-//-(void)submitGetRequestWithCompletionHandler:(void (^)(void))completionHandler;
-
-//Delete / Delete Many
-//-(void)submitDeleteRequestForDict:(NSDictionary*)dict withCompletionHandler:(HTTPRequestCompletionBlock)completionHandler;
-
--(NSArray*)parseCSV:(NSString*)filepath assetDir:(NSString*)assetDir;
-//-(void)submitCreateManyRequestWithCSV:(NSString*)pathToCSV andAssetDir:(NSString*)pathToDIR;
-//-(void)submitCreateManyRequestWithDicts:(NSArray*)arrayOfDicts andCompletionHandler:(HTTPRequestCompletionBlock)completionHandler;
-//-(void)submitGetManyRequestWithQueryParams:(nullable NSDictionary*)queryParams andCompletionHandler:(HTTPRequestCompletionBlock)completionHandler;
-
 -(NSString*)primaryKey;
-
 //-(id)class;
-
 
 -(CMDOMError*)populatePropertiesFromDictionary:(NSDictionary*)fields;
 

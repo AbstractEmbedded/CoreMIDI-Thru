@@ -114,9 +114,9 @@ NSString* _Nullable NSStringConstructorImpl(const char * str)
                     //[result appendFormat:@"%x", twoCC.bytes[0]];
 
                 
-                    unsigned char bitMask2 = 0x3;
+                    //unsigned char bitMask2 = 0x3;
                     unsigned char bitMask3 = 0x7;
-                    unsigned char bitMask5 = 0x1F;
+                    //unsigned char bitMask5 = 0x1F;
                     unsigned char bitMask6 = 0x3F;
                 
                     unsigned char comp1lowest5Bytes = twoCC.bytes[1] & bitMask3;

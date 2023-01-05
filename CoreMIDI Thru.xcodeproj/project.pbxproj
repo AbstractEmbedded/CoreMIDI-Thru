@@ -50,6 +50,8 @@
 		C7E59773295CF29A00981CB6 /* CMThruModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E59771295CF29A00981CB6 /* CMThruModalViewController.m */; };
 		C7E5977A295D762700981CB6 /* NSTextFieldButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E59779295D762700981CB6 /* NSTextFieldButton.m */; };
 		C7E5977B295D762700981CB6 /* NSTextFieldButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C7E59779295D762700981CB6 /* NSTextFieldButton.m */; };
+		C7EA374E296681FB002E7EB9 /* CocoaImage+Logo.m in Sources */ = {isa = PBXBuildFile; fileRef = C7EA374D296681FB002E7EB9 /* CocoaImage+Logo.m */; };
+		C7EA37502966B02B002E7EB9 /* CMidiEndpoint.c in Sources */ = {isa = PBXBuildFile; fileRef = C7EA374F2966B02B002E7EB9 /* CMidiEndpoint.c */; };
 		C7F18775295D780200CECD41 /* NSView+Blur.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F18773295D780200CECD41 /* NSView+Blur.m */; };
 		C7F18776295D780200CECD41 /* CustomIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F18774295D780200CECD41 /* CustomIndicatorView.m */; };
 		C7F18782295DAF1D00CECD41 /* NSString+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = C7F18778295DAF1D00CECD41 /* NSString+Ext.m */; };
@@ -117,6 +119,9 @@
 		C7E59771295CF29A00981CB6 /* CMThruModalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMThruModalViewController.m; sourceTree = "<group>"; };
 		C7E59778295D762700981CB6 /* NSTextFieldButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSTextFieldButton.h; sourceTree = "<group>"; };
 		C7E59779295D762700981CB6 /* NSTextFieldButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSTextFieldButton.m; sourceTree = "<group>"; };
+		C7EA374C296681FB002E7EB9 /* CocoaImage+Logo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CocoaImage+Logo.h"; sourceTree = "<group>"; };
+		C7EA374D296681FB002E7EB9 /* CocoaImage+Logo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CocoaImage+Logo.m"; sourceTree = "<group>"; };
+		C7EA374F2966B02B002E7EB9 /* CMidiEndpoint.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CMidiEndpoint.c; sourceTree = "<group>"; };
 		C7F18771295D780200CECD41 /* NSView+Blur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+Blur.h"; sourceTree = "<group>"; };
 		C7F18772295D780200CECD41 /* CustomIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIndicatorView.h; sourceTree = "<group>"; };
 		C7F18773295D780200CECD41 /* NSView+Blur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+Blur.m"; sourceTree = "<group>"; };
@@ -186,6 +191,8 @@
 				C7F187A6295EF26000CECD41 /* CMLogoView.m */,
 				C7F187A8295EF47F00CECD41 /* NSColor+3rdGen.h */,
 				C7F187A9295EF47F00CECD41 /* NSColor+3rdGen.m */,
+				C7EA374C296681FB002E7EB9 /* CocoaImage+Logo.h */,
+				C7EA374D296681FB002E7EB9 /* CocoaImage+Logo.m */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -280,6 +287,7 @@
 				C7E5974B295C2F3B00981CB6 /* CMidiEndpoint.h */,
 				C7881471296050B900FFDF99 /* CMidiDriverID.h */,
 				C7881472296050B900FFDF99 /* CMidiDriverID.c */,
+				C7EA374F2966B02B002E7EB9 /* CMidiEndpoint.c */,
 			);
 			name = CMidi;
 			path = ../../CMidi;
@@ -376,13 +384,13 @@
 		C7F18777295DAF1D00CECD41 /* NSExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				C7F1877E295DAF1D00CECD41 /* NSString+Ext.h */,
 				C7F18778295DAF1D00CECD41 /* NSString+Ext.m */,
-				C7F18779295DAF1D00CECD41 /* NSData+Ext.h */,
+				C7F1877D295DAF1D00CECD41 /* NSObject+JSON.h */,
 				C7F1877B295DAF1D00CECD41 /* NSObject+JSON.m */,
 				C7F1877C295DAF1D00CECD41 /* NSDate+Ext.h */,
-				C7F1877D295DAF1D00CECD41 /* NSObject+JSON.h */,
-				C7F1877E295DAF1D00CECD41 /* NSString+Ext.h */,
 				C7F1877F295DAF1D00CECD41 /* NSData+Ext.m */,
+				C7F18779295DAF1D00CECD41 /* NSData+Ext.h */,
 				C7F18781295DAF1D00CECD41 /* NSDate+Ext.m */,
 			);
 			path = NSExtensions;
@@ -535,9 +543,11 @@
 				C7F1879D295DD66E00CECD41 /* CMThruTableRow.m in Sources */,
 				C7E59758295C408300981CB6 /* CMThruConnection.m in Sources */,
 				C7E5977A295D762700981CB6 /* NSTextFieldButton.m in Sources */,
+				C7EA374E296681FB002E7EB9 /* CocoaImage+Logo.m in Sources */,
 				C7E5973F295C1B9000981CB6 /* CMThruView.m in Sources */,
 				C7E59754295C3CD400981CB6 /* CMThruScrollListView.m in Sources */,
 				C7E59760295CC84200981CB6 /* CustomButtonView.m in Sources */,
+				C7EA37502966B02B002E7EB9 /* CMidiEndpoint.c in Sources */,
 				C7F18790295DB64E00CECD41 /* NSDocumentObjectModel.m in Sources */,
 				C7E59749295C2ED800981CB6 /* CMidi.c in Sources */,
 				C7E59729295C062600981CB6 /* main.c in Sources */,

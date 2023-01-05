@@ -21,6 +21,9 @@
 //Button
 #import "CustomButtonView.h"
 
+//AppIcon Generation
+#import "CocoaImage+Logo.h"
+
 static NSString * const NSToolbarAddItemIdentifier = @"AddToolbarItem";
 
 const char * CM_THRU_MENU_TITLES[] =
@@ -309,29 +312,14 @@ const char * CM_THRU_MENU_TITLES[] =
     toolbarItem.toolTip = toolTip;
     toolbarItem.target = self;
     toolbarItem.action = @selector(addRouteButtonClicked:);
-    //toolbarItem.foon
+
     //[toolbarItem.label sizeToFit];
     //CGSize size = [label sizeWithAttributes:[NSAttributedStringKey.font: font])
+
+    //minSize is deprecated but it is the only mechanism I can get to size the toolbar item properly
     toolbarItem.minSize = CGSizeMake(itemContent.frame.size.height,itemContent.frame.size.height);    // maybe + x
-    //toolbarItem.image = [NSImage imageNamed:NSImageNameAddTemplate];
     
-    
-    /**
-    You don't need to set a `target` if you know what you are doing.
-
-    In this example, AppDelegate is also the toolbar delegate.
-
-    Since AppDelegate is not a responder, implementing an IBAction in the AppDelegate class has no effect. Try using a subclass of NSWindow or NSWindowController to implement your action methods and use them as the toolbar delegate instead.
-
-    Ref: https://developer.apple.com/documentation/appkit/nstoolbaritem/1525982-target
-
-    From doc:
-
-    If target is nil, the toolbar will call action and attempt to invoke the action on the first responder and, failing that, pass the action up the responder chain.
-    */
-    //        toolbarItem.target = self
-    //        toolbarItem.action = #selector(methodName)
-       
+    //set toolbar view
     toolbarItem.view = itemContent;
     //toolbarItem.image = itemContent.image;
     
@@ -555,6 +543,7 @@ MIDINotifyBlock CMidiNotifyBlock = ^void(const MIDINotification *msg)
 
     
     [self updateThruConnectionWidgets];
+    
 }
 
 
@@ -649,6 +638,7 @@ MIDINotifyBlock CMidiNotifyBlock = ^void(const MIDINotification *msg)
     EV_SET(&kev, crevent_init, EVFILT_USER, 0, NOTE_TRIGGER, 0, NULL);
     kevent(cr_appEventQueue, &kev, 1, NULL, 0, NULL);
     */
+    
     
     return YES;
 }

@@ -20,7 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CMThruApplication : CocoaApplication
 
 +(CMThruApplication*)sharedInstance;
+
+#if !TARGET_OS_OSX
 -(void)replyToApplicationShouldTerminate:(BOOL)shouldTerminate;
+#endif
 
 @end
 NS_ASSUME_NONNULL_END

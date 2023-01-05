@@ -64,40 +64,17 @@
     return -1;
 }
 
-/*
+
 +(NSString*)domTitle
 {
-    NSLog(@"NSDOM::domTitle = %d", self.class.type);
-    if(self.class.type > -1 && self.type < NUM_DOM_COLLECTIONS + NUM_EXT_DOM_COLLECTIONS)
-    {
-        if( self.type >= NUM_DOM_COLLECTIONS )
-        {
-            NSLog(@"NSDOM::domTitle = %@",  [NSString stringWithUTF8String:VRT_EXT_DOM_TITLES[self.class.type - NUM_DOM_COLLECTIONS]]);
-            return [NSString stringWithUTF8String:VRT_EXT_DOM_TITLES[self.class.type - NUM_DOM_COLLECTIONS]];
-        }
-        else
-            return [NSString stringWithUTF8String:VRT_DOM_TITLES[self.class.type]];
-    }
     return @"(Unknown DOM Type)";
 }
 
 +(NSString*)collectionTitle
 {
-    NSLog(@"NSDOM::collectionTitle");
-
-    if(self.class.type > -1 && self.type < NUM_DOM_COLLECTIONS + NUM_EXT_DOM_COLLECTIONS)
-    {
-        if( self.type >= NUM_DOM_COLLECTIONS )
-        {
-            NSLog(@"NSDOM::collectionTitle = %@",  [NSString stringWithUTF8String:VRT_EXT_DOM_COLLECTION_TITLES[self.class.type - NUM_DOM_COLLECTIONS]]);
-            return [NSString stringWithUTF8String:VRT_EXT_DOM_COLLECTION_TITLES[self.class.type - NUM_DOM_COLLECTIONS]];
-        }
-        else
-            return [NSString stringWithUTF8String:VRT_DOM_COLLECTION_TITLES[self.class.type]];
-    }
     return @"(Unknown DOM Type)";
 }
-*/
+
 
 -(int)type
 {
