@@ -65,9 +65,9 @@ You are correct it is trivial!  This really should be exposed directly in MIDI S
 
 *"You can’t specify a “MIDI thru” connection between two MIDI devices. To indicate a MIDI thru connection, connect the two MIDI devices to the same port of the MIDI interface device."*
 
-Despite this being very poorly written it does seem that users it is possible to create Thru Connections between hardware devices by virtue of creating an intermediate "external device" albeit in an extremely unintuitive fashion.  However, this is the least useful case.  Users cannot create Thru Connections between hardware devices and the IAC driver nor between AudioUnit and devices as needed.  
+Despite this being very poorly written it does appear to be possible to create Thru Connections between hardware devices by virtue of creating an intermediate "external device" albeit in an extremely unintuitive fashion.  However, this is the least useful case.  Users cannot create Thru Connections between hardware devices and the IAC driver nor between AudioUnit and devices as needed.  
 
-Here are some additional observations on why this may be currently overlooked by devs and pro audio users:
+Here are some additional observations on why this feature may currently be overlooked by devs and pro audio users:
 
 - It wasn't until I recently moved to M1 hardware from an older Intel Macbook Pro that I had enough processing headroom reported by Logic Pro X to realize that this was not about load but a symptom of the IPC mechanism.    
 - Of the popular third party wrapper libraries used by others to build CoreMIDI and even CoreAudio apps none of them use the Thru Connection API.[^1]
