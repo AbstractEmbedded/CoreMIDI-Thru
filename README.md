@@ -9,7 +9,7 @@ For demanding scenarios such as live mixing and monitoring of externally trigger
 
 <img align="center" src="https://github.com/3rdGen-Media/CoreMIDI-Thru/blob/master/Resources/Images/MainWindow.png">
 
-<h2>About CoreMIDI Thru Connections</h2>
+<h3>About CoreMIDI Thru Connections</h3>
 
 <h4>Client-Server IPC</h3>
 
@@ -31,4 +31,16 @@ Since our client DAW application can't avoid using the mach message based IPC to
 
 Recently, Apple has allowed AU plugins to expose themselves as virtual MIDI generating output devices to Core MIDI, but not as input devices.  If Apple were to allow AU plugins to expose themselves as input then the Thru Connection could be made directly bypassing the use of the virtual IAC Bus device and the burden hopefully removed from the DAW's main run loop.   
 
+<h4>About Thru Mapping</h4>
+
+
 <h3>FAQ</h3>
+
+Q:  Given that the CoreMIDI Thru Connection API has been around since 10.2.  How is it that
+
+I'm as surprised as you are and irritated that I had to stop 
+
+
+Q:  I already use client application X that allows traffic from multiple MIDI devices to be routed to a single virtual port and there are tons of them available.  Why would I need to use this?
+
+A:  I personally have been using this paid application for several years:  [https://www.bome.com/products/miditranslator]  It is a very functional app.  It allows creation of non-persistent virtual devices, monitoring on all enabled devices and the ability to "create MIDI Thru Connections".  Specifically, it's advanced filtering capabilities allow creation of mini programs (e.g. tracking hi-hat open/close CC such that when the hi-hat is struck it outputs the corresponding MIDI not value for open or closed).  However, this app can't possibly be creating true CoreMIDI Server Thru Connection or it would not be able to interrupt those messages in favor of its custom rulesets.  It is always possible that an app that does monitoring may have been built as a custom driver with a UI in front but even when I am not filtering and connections are just pass through I experience the same perceivable degradation when receiving from multiple devices in Logic Pro X.  My advice is to be weary of this inexactness of language and try to verify if you can.       
