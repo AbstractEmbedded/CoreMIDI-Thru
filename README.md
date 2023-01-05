@@ -1,6 +1,6 @@
 <div>
-<img align="left" src="https://github.com/3rdGen-Media/CoreMIDI-Thru/blob/master/Resources/Assets/AppIcon/Logo1024x1024.png" width="128">
-<h2>CoreMIDI Thru</h2>
+<img align="left" src="https://github.com/3rdGen-Media/CoreMIDI-Thru/blob/master/Resources/Assets/AppIcon/Logo1024x1024.png" width="120">
+<h1>CoreMIDI Thru</h1>
 </div>
     
 CoreMIDI Thru is a companion app to [MIDI Studio](https://support.apple.com/en-nz/guide/audio-midi-setup/ams875bae1e0/3.5/mac/13.0) for creating and managing CoreMIDI Server Persistent Thru Connections to ensure lowest MIDI packet jitter and transport latency from CoreMIDI device driver to DAW application. 
@@ -61,7 +61,7 @@ This is the expected behavior.  If you have only one device being fed directly f
 <a name="Question3"/></a>
 #### This seems trivial.  Given that the CoreMIDI Thru Connection API has been around since OSX 10.2 how is it that this was missed by every other CoreMIDI client app?
 
-You are correct it is trivial!  This really should be exposed directly in MIDI Studio.  The [offcial documentation](https://support.apple.com/en-nz/guide/audio-midi-setup/ams875bae1e0/3.5/mac/13.0) reads:
+You are correct it is trivial!  This really should be exposed directly in MIDI Studio.  The [official documentation](https://support.apple.com/en-nz/guide/audio-midi-setup/ams875bae1e0/3.5/mac/13.0) reads:
 
 *"You can’t specify a “MIDI thru” connection between two MIDI devices. To indicate a MIDI thru connection, connect the two MIDI devices to the same port of the MIDI interface device."*
 
@@ -70,10 +70,10 @@ Despite this being very poorly written it does seem that you can create Thru Con
 Here are some additional observations on why this may be currently overlooked by devs and pro audio users alike:
 
 - It wasn't until I recently moved to M1 hardware from an older intel based MBP that I had enough processing headroom reported by Logic Pro X to realize that this was not about load but a symptom of the IPC mechanism.    
-- Of the popular 3rd party wrapper libraries that devs seem to use to build CoreMIDI and even CoreAudio apps none of them use the Thru Connection API.[^1]
+- Of the popular third party wrapper libraries used by others to build CoreMIDI and even CoreAudio apps none of them use the Thru Connection API.[^1]
 - I couldn't find any projects on github with a call to MIDIThruConnectionCreate that actively worked. Furthermore, apps that claim to do virtual pass through always miss the point by passing messages through the client.[^2] 
--  A significant number of others have reported trouble getting the Thru Connection API to pass through packets.  Non-persistent Thru Connections are in fact broken.  While I did experience these initial pangs at first it may be they just weren't trying hard enough.[^3]
+- A significant number of others have reported trouble getting the Thru Connection API to pass through packets.  Non-persistent Thru Connections are in fact broken.  While I did experience these initial pangs at first it may be they just weren't trying hard enough.[^3]
 
-[^1]: [PortMidi](https://github.com/PortMidi/portmidi), [AudioKit](https://github.com/AudioKit/AudioKit), [MIDIKit](https://github.com/orchetect/MIDIKit) (latter has ThruConnection but claims bug in Big Sur onward)
+[^1]: [PortMidi](https://github.com/PortMidi/portmidi), [AudioKit](https://github.com/AudioKit/AudioKit), [MIDIKit](https://github.com/orchetect/MIDIKit) (*latter has ThruConnection but claims bug in Big Sur onward)
 [^2]: [Swift2MIDI](https://github.com/genedelisa/Swift2MIDI), [Gong](https://github.com/dclelland/Gong)
 [^3]: [StackOverflow 1](https://stackoverflow.com/questions/54871326/how-is-a-coremidi-thru-connection-made-in-swift-4-2), [Stack Overflow 2](https://stackoverflow.com/questions/15141810/midithruconnectioncreate-xcode), [Stack Overflow 3](https://stackoverflow.com/questions/14825371/how-to-monitor-outgoing-midi-messages-in-coremidi), [Stack Overflow 4](https://www.appsloveworld.com/swift/100/138/midithruconnectioncreate-always-creates-persistent-midi-thru-connection)
