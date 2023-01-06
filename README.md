@@ -29,7 +29,7 @@ Since our client DAW application can't avoid using the mach message based IPC to
 
 <h4>AudioUnit Devices</h4>
 
-Recently Apple has allowed AudioUnit plugins to expose themselves as virtual MIDI-generating *input* devices to CoreMIDI but not as *output* devices.  You can use this app to create Thru Connections with them.  If Apple were to allow AU plugins to expose themselves as output devices then the Thru Connection could be made directly to the plugin bypassing the use of the virtual IAC Bus device and hopefully allaying the burden of processing all incoming MIDI on the DAW's main thread runloop.   
+Recently Apple has allowed AudioUnit plugins to expose themselves as virtual MIDI-generating *input* devices to CoreMIDI but not as *output* devices.  You can use this app to create Thru Connections with them.  If Apple were to allow AU plugins to expose themselves as output devices then a Thru Connection could be made directly to the plugin bypassing the use of the virtual IAC Bus device and hopefully allaying the burden of processing all incoming MIDI on the DAW's main thread runloop.   
 
 <h4>Thru Connection Mappings & Packet Translation</h4>
 
