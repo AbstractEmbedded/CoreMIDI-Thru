@@ -21,7 +21,7 @@ The CoreMIDI server uses an Interprocess Communication (IPC) mechanism provided 
 
 Realizing this - instead of redesigning the CoreMIDI Server application and Client API - Apple introduced the [CoreMIDI Thru Connection API](https://developer.apple.com/documentation/coremidi/midi_thru_connection?language=objc) to allow client apps to instruct the server to create and maintain persistent pass-through for device/port combinations registered with the CoreMIDI server.  Cool, this allows combining two or more device inputs to a single virtual device that a client app can read from/write to.  Our options for such a virtual device are to create a driver that exposes one or create a client app that registers one via the CoreMIDI API - the latter with the disadvantage that the virtual device will not be persistent when the client app that created it is not running.  Luckily, Apple has provided such a driver for us and users can [create virtual "bus" devices owned by the Interapp Communication (IAC) Driver via MIDI Studio](https://support.apple.com/en-nz/guide/audio-midi-setup/ams1013/3.5/mac/13.1).
 
-...but how do we create a Thru Connection to the IAC bus we exposed in MIDI Studio?  Apple seems to have inexplicably left this out.             
+... but how do we create a Thru Connection to the IAC bus we exposed in MIDI Studio?  Apple seems to have inexplicably left this out.             
 
 <h4>Best Practices</h4>
 
@@ -65,7 +65,7 @@ You are correct it is trivial!  This really should be exposed directly in MIDI S
 
 *"You can’t specify a “MIDI thru” connection between two MIDI devices. To indicate a MIDI thru connection, connect the two MIDI devices to the same port of the MIDI interface device."*
 
-Despite this being very poorly written it does appear to be possible to create Thru Connections between hardware devices by virtue of creating an intermediate "external device" albeit in an extremely unintuitive fashion.  However, this is the least useful case.  Users cannot create Thru Connections between hardware devices and the IAC driver nor between AudioUnit and devices as needed.  
+Despite this being very poorly written it does appear to be possible to create Thru Connections between hardware devices by virtue of creating an intermediate "external device" albeit in an extremely unintuitive fashion.  However, this is the least useful case.  Thru Connections cannot be created between hardware devices and the IAC driver nor between AudioUnit and devices as needed.  
 
 Here are some additional observations on why this feature may currently be overlooked by devs and pro audio users:
 
