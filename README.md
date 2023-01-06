@@ -33,7 +33,7 @@ Recently Apple has allowed AudioUnit plugins to expose themselves as virtual MID
 
 <h4>Thru Connection Mappings & Packet Translation</h4>
 
-The CoreMIDI Thru Connection API allows for trivial 1-in, 1-out transformations of noteNumber, velocity, keyPressure, channelPresure, programChange, pitchBend and controlChange.  However, given that this simple API is not suitable for transforming note values based on observed CC messages it is of limited use to me so I have decided to forgo the extra work to expose a UI for Thru Connection mappings.  
+The CoreMIDI Thru Connection API allows for trivial 1-in, 1-out transformations of noteNumber, velocity, keyPressure, channelPressure, programChange, pitchBend and controlChange.  However, given that this simple API is not suitable for transforming note values based on observed CC messages it is of limited use to me so I have decided to forgo the extra work to expose a UI for Thru Connection mappings.  
 
 Having an intermediate client app perform translation, of course, defeats the purpose of using a Thru Connection.  Best practice is to just send the correct MIDI from your external device and avoid translation altogether. Future efforts may involve writing a driver that exposes a virtual device whose traffic I can operate on despite that having the destination audio plugin directly translate messages on receipt would be a less invasive route in that it would not involve interjecting to hold up and process MIDI data. 
 
