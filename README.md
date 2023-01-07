@@ -73,8 +73,10 @@ Here are some additional observations on why this feature may currently be overl
 - Of the popular third party wrapper libraries used by others to build CoreMIDI and even CoreAudio apps none of them use the Thru Connection API.[^2]
 - I couldn't find any projects on github with a call to MIDIThruConnectionCreate that actively worked. Separately, many apps that claim to do virtual pass through do not use the Thru Connection API and miss the point by passing messages through the client.[^3] 
 - A significant number of others have reported trouble getting the Thru Connection API to pass through packets.  Non-persistent Thru Connections are in fact broken.  While I did experience these initial pangs at first it could be that the issue manifests for those using Swift bindings, the API has been modified from its previous usage and/or they are just not reading the specification closely enough.[^4]
+- Now deprecated, Inter-App Audio's ability to pass MIDI as well may have previously provided a better alternative to using CoreMIDI for registered application pass through.[^5]
 
 [^1]: TO DO:  How does one determine if a client application runloop is running on a P-Core vs an E-Core?
 [^2]: [PortMidi](https://github.com/PortMidi/portmidi), [AudioKit](https://github.com/AudioKit/AudioKit), [MIDIKit](https://github.com/orchetect/MIDIKit) (*latter has ThruConnection but reports bug in Big Sur onward)
 [^3]: [Swift2MIDI](https://github.com/genedelisa/Swift2MIDI), [Gong](https://github.com/dclelland/Gong)
 [^4]: [StackOverflow 1](https://stackoverflow.com/questions/54871326/how-is-a-coremidi-thru-connection-made-in-swift-4-2), [Stack Overflow 2](https://stackoverflow.com/questions/15141810/midithruconnectioncreate-xcode), [Stack Overflow 3](https://stackoverflow.com/questions/14825371/how-to-monitor-outgoing-midi-messages-in-coremidi), [Stack Overflow 4](https://www.appsloveworld.com/swift/100/138/midithruconnectioncreate-always-creates-persistent-midi-thru-connection)
+[^5]: [Inter-App Audio Sunset](https://cdm.link/2019/06/iaa-audiobus-ios-13/)
