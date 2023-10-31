@@ -7,7 +7,7 @@ CoreMIDI Thru is a companion app to [MIDI Studio](https://support.apple.com/en-n
 
 For demanding scenarios such as live mixing and monitoring of externally triggered audio with AU/VST plugin triggered audio in a high sample rate and low buffer size environment it addresses audibly perceivable sample alignment degradation exhibited when a client [DAW] application attempts to read MIDI from two or more MIDI devices by exposing the capability to have the system route incoming MIDI from multiple hardware devices to a single virtual device (e.g. the IAC Driver Bus).
 
-**Disclaimer:  Since development of this app I have adopted using an additional DAW per MIDI hardware input instead of merging streams via Thru connections to an IAC bus**
+**Update:  Since development of this app I have adopted using an additional DAW per MIDI hardware input instead of merging streams via Thru connections to an IAC bus.  If you are experiencing crackling symptoms with real-time audio when using Logic Pro in a multi-DAW scenario consider reducing the # of Processing Threads to isolate the P-Cores each application uses to schedule audio and limit total system processes to minimize global E-Core usage.**
 
 <img align="center" src="https://github.com/3rdGen-Media/CoreMIDI-Thru/blob/master/Resources/Images/MainWindow.png">
 
